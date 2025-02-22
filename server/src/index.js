@@ -1,11 +1,13 @@
 import 'dotenv/config'
 import express, { Router } from 'express';
+import router from './routes/apiRoute.js';
 import connectDb from './db/index.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 
 const app=express();
+
 const port=process.env.PORT ;
 app.use(cors({
     "origin": "http://localhost:3000",
@@ -19,7 +21,7 @@ app.use(cookieParser());
 app.use(express.json());        
 connectDb();
 
-
+app.use('/',router);
 
 app.listen(port, ()=>{
     console.log(`Server is listening on port http://localhost:${port}`);
