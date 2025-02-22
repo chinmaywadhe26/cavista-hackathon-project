@@ -24,7 +24,6 @@ export const fillSymptoms = async (req, res) => {
             return res.status(400).json({ msg: "Cannot find user. Please enter correct username." });
         }
 
-        // Create a new symptoms entry
         const symptoms = new Symptoms({
             painLevels: PainLevels,
             mobilityIssues: MobilityIssues,

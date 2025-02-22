@@ -1,7 +1,10 @@
 import mongoose, {Schema, SchemaTypes} from "mongoose";
 import jwt from "jsonwebtoken";
 const userSchema = new Schema({
-    
+    guardianEmail:{
+        type:String
+    }
+    ,
     username:{
         type: String,
         required: true,
