@@ -1,19 +1,21 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter } from "next/navigation";
 import io from 'socket.io-client';
 
-const Page = () => {
+ const call = () => {
   const [localStream, setLocalStream] = useState(null);
-  const [remoteStream, setRemoteStream] = useState(null);
-  const [localPeerConnection, setLocalPeerConnection] = useState(null);
+  const [remoteStream, setRemoteStream] =  useState(null);
+  const [localPeerConnection, setLocalPeerConnection] =useState(null);
   const [remotePeerConnection, setRemotePeerConnection] = useState(null);
-  const [incomingCall, setIncomingCall] = useState(false);
+  const [incomingCall, setIncomingCall] =  useState(false);
   const localVideoRef = useRef(null);
-  const remoteVideoRef = useRef(null);
-  const startButtonRef = useRef(null);
+  const remoteVideoRef =useRef(null);
+  const startButtonRef =useRef(null);
   const hangupButtonRef = useRef(null);
-  const answerButtonRef = useRef(null);
+  const answerButtonRef =useRef(null);
   const socketRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     const startButton = startButtonRef.current;
@@ -40,15 +42,15 @@ const Page = () => {
   }, []);
 
   const initiateCall = () => {
-    socketRef.current.emit('call', { message: 'Incoming call' });
+    //emit socket to backend to initiate call
     startCall();
   };
 
   const startCall = () => {
-    const startButton = startButtonRef.current;
-    const hangupButton = hangupButtonRef.current;
+    const startButton =  startButtonRef.current;
+    const hangupButton= hangupButtonRef.current;
     const localVideo = localVideoRef.current;
-    const remoteVideo = remoteVideoRef.current;
+    const remoteVideo =remoteVideoRef.current;
 
     startButton.disabled = true;
     hangupButton.disabled = false;
@@ -65,34 +67,17 @@ const Page = () => {
           localPC.addTrack(track, stream);
         });
 
+
         localPC.createOffer()
           .then(offer => {
             localPC.setLocalDescription(offer);
-            signal('offer', offer);
+            //emit socket to backend for creating offer
           })
           .catch(error => {
             console.error('Error creating offer:', error);
           });
 
-        const remotePC = new RTCPeerConnection();
-        setRemotePeerConnection(remotePC);
-
-        remotePC.ontrack = event => {
-          setRemoteStream(event.streams[0]);
-          remoteVideo.srcObject = event.streams[0];
-        };
-
-        localPC.onicecandidate = event => {
-          if (event.candidate) {
-            signal('candidate', event.candidate);
-          }
-        };
-
-        remotePC.onicecandidate = event => {
-          if (event.candidate) {
-            signal('candidate', event.candidate);
-          }
-        };
+       //hanle additon of new peer
       })
       .catch(error => {
         console.error('Error accessing media devices:', error);
@@ -100,7 +85,7 @@ const Page = () => {
   };
 
   const answerCall = () => {
-    setIncomingCall(false);
+
     startCall();
   };
 
@@ -110,68 +95,38 @@ const Page = () => {
     const localVideo = localVideoRef.current;
     const remoteVideo = remoteVideoRef.current;
 
-    localPeerConnection.close();
-    remotePeerConnection.close();
+    //localPeerConnection.close();
+    //remotePeerConnection.close();
     setLocalPeerConnection(null);
     setRemotePeerConnection(null);
     startButton.disabled = false;
     hangupButton.disabled = true;
     localVideo.srcObject = null;
     remoteVideo.srcObject = null;
-
-    signal('end', 'hang-up');
+    router.push('/profile');
+    //emit socket to backend or ending the call
   };
 
-  const signal = (eventName, data) => {
-    socketRef.current.emit(eventName, data);
-  };
 
   const handleIncomingCall = (data) => {
     setIncomingCall(true);
   };
 
-  const handleOffer = (offer) => {
-    const remotePC = new RTCPeerConnection();
-    setRemotePeerConnection(remotePC);
+  const handleOffer = () => {
+    //handle offer functionality
+  }
 
-    remotePC.setRemoteDescription(new RTCSessionDescription(offer));
-    remotePC.createAnswer()
-      .then(answer => {
-        remotePC.setLocalDescription(answer);
-        signal('answer', answer);
-      })
-      .catch(error => {
-        console.error('Error creating answer:', error);
-      });
-
-    remotePC.ontrack = event => {
-      setRemoteStream(event.streams[0]);
-      remoteVideoRef.current.srcObject = event.streams[0];
-    };
-
-    remotePC.onicecandidate = event => {
-      if (event.candidate) {
-        signal('candidate', event.candidate);
-      }
-    };
-  };
-
-  const handleAnswer = (answer) => {
-    localPeerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-  };
-
-  const handleCandidate = (candidate) => {
-    const iceCandidate = new RTCIceCandidate(candidate);
-    if (localPeerConnection) {
-      localPeerConnection.addIceCandidate(iceCandidate);
-    } else if (remotePeerConnection) {
-      remotePeerConnection.addIceCandidate(iceCandidate);
-    }
+  const handleAnswer = () => {
+    //handle answer functionality
   };
 
   const handleEnd = () => {
     hangupCall();
   };
+
+  const handleCandidate = () => {
+    //handle candidate functionality
+  } 
 
   return (
     <>
@@ -185,4 +140,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default call;
