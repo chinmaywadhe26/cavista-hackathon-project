@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { io } from "socket.io-client";
@@ -7,7 +8,9 @@ const socket = io("http://localhost:3000"); // Update with your server URL
 
 
 
-const call = () => {
+
+
+const Call = () => {
   const [callActive, setCallActive] = useState(false);
   
   const router = useRouter();
@@ -20,6 +23,7 @@ const call = () => {
 
     return () => {
       socket.off("active-room-status");
+
     };
   }, []);
 
@@ -68,4 +72,5 @@ const call = () => {
   );
 };
 
-export default call;
+export default Call;
+

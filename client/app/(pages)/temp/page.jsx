@@ -72,7 +72,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -100,7 +100,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -127,7 +127,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -155,7 +155,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -183,7 +183,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -211,7 +211,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -239,7 +239,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -267,7 +267,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -295,7 +295,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -323,7 +323,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -352,7 +352,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -380,7 +380,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
@@ -408,7 +408,7 @@ export default function MyForm() {
                     min={0}
                     max={10}
                     step={1}
-                    defaultValue={[5]}
+                    defaultValue={[0]}
                     onValueChange={(vals) => {
                       onChange(vals[0]);
                     }}
