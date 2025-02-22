@@ -1,10 +1,10 @@
+<<<<<<< Updated upstream
+=======
+"use client";
+>>>>>>> Stashed changes
 
 import {
-  Calendar,
-  Home,
   Inbox,
-  Search,
-  Settings,
   ChartNoAxesCombined,
   UserRoundPen,
   CalendarCheck2,
@@ -35,7 +35,7 @@ const items = [
   },
   {
     title: "Profile",
-    url: "/patient/profile",
+    url: "/patient",
     icon: UserRoundPen,
   },
   {
@@ -48,6 +48,7 @@ const items = [
     url: "/patient/appointments",
     icon: CalendarCheck2,
   },
+<<<<<<< Updated upstream
 
     url: "/caretaker",
     icon: Home,
@@ -73,9 +74,17 @@ const items = [
   //     url: "#",
   //     icon: Settings,
   //   },
+=======
+  {
+    title: "Chat",
+    url: "/patient/chat",
+    icon: Inbox,
+  },
+>>>>>>> Stashed changes
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarContent>
@@ -87,6 +96,7 @@ export function AppSidebar() {
 
           <SidebarGroupContent>
             <SidebarMenu>
+<<<<<<< Updated upstream
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -104,6 +114,33 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+=======
+              {items.map((item) => {
+                const isActive = pathname === item.url;
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={item.url}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-md ${
+                          isActive
+                            ? "bg-blue-500 text-white font-semibold hover:bg-blue-500 hover:text-white"
+                            : "hover:border hover:border-blue-500"
+                        }`}>
+                        <item.icon
+                          className={`w-5 h-5 transition-colors ${
+                            isActive
+                              ? "text-white hover:text-white"
+                              : "text-gray-600"
+                          }`}
+                        />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+>>>>>>> Stashed changes
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

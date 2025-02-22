@@ -1,97 +1,96 @@
+"use client";
+
 import AppointmentCard from "@/components/appointmentCard";
-import { hospital } from "lucide-react";
-import PatientForm from "@/components/patientForm";
-import React from "react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 const appointmentsArray = [
   {
-    hospital: "hospital",
+    hospital: "City Hospital",
     time: "12/12/2021 12:00",
     doctor: "Dr. John Doe",
     index: 0,
   },
   {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
-    doctor: "Dr. John Doe",
+    hospital: "Metro Medical Center",
+    time: "14/12/2021 10:30",
+    doctor: "Dr. Jane Smith",
     index: 1,
   },
   {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
-    doctor: "Dr. John Doe",
+    hospital: "Community Health Center",
+    time: "16/12/2021 09:00",
+    doctor: "Dr. Emily Johnson",
     index: 2,
   },
   {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
+    hospital: "City Hospital",
+    time: "18/12/2021 11:00",
     doctor: "Dr. John Doe",
     index: 3,
   },
   {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
-    doctor: "Dr. John Doe",
+    hospital: "Metro Medical Center",
+    time: "20/12/2021 10:30",
+    doctor: "Dr. Jane Smith",
     index: 4,
   },
   {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
-    doctor: "Dr. John Doe",
+    hospital: "Community Health Center",
+    time: "22/12/2021 09:00",
+    doctor: "Dr. Emily Johnson",
     index: 5,
   },
   {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
+    hospital: "City Hospital",
+    time: "24/12/2021 11:00",
     doctor: "Dr. John Doe",
     index: 6,
-  },
-  {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
-    doctor: "Dr. John Doe",
-    index: 7,
-  },
-  {
-    hospital: "hospital",
-    time: "12/12/2021 12:00",
-    doctor: "Dr. John Doe",
-    index: 8,
   },
 ];
 
 const Appointments = () => {
   return (
-    <div className="w-screen h-dvh px-8 flex flex-col overflow-x-hidden">
-      <h1 className="text-3xl font-bold">Appointments</h1>
-      <div className="flex w-full h-3/4 mt-8 space-x-8">
-        <div className="w-1/2 flex flex-col h-full bg-card p-4 text-card-foreground rounded-md border border-slate-300 shadow-md">
-          <h1 className="font-semibold">Today Appointment</h1>
-          <div className="w-full h-full mt-4 space-y-1 bg-slate-200 rounded-md p-8">
-            <h1 className="text-xl font-semibold">Hospital: Forte Hospital</h1>
-            <h2 className="text-xl font-semibold">Time: 03/03/2025</h2>
-            <h2 className="text-xl font-semibold">Doctor: Dr. K R Reddy</h2>
-          </div>
+    <div className="w-screen px-16 py-4 bg-background text-foreground">
+      <h1 className="text-4xl font-bold mb-6">Appointments</h1>
+
+      <div className="w-full grid grid-cols-2 gap-8">
+        <div className="w-full col-span-1">
+          <Card className="shadow-lg border border-slate-200">
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Upcoming Appointments</h2>
+            </CardHeader>
+            <Separator />
+            <CardContent className="p-4">
+              <ScrollArea className="h-96 w-full pr-2">
+                <div className="space-y-3">
+                  {appointmentsArray.map((appointment) => (
+                    <AppointmentCard key={appointment.index} {...appointment} />
+                  ))}
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
         </div>
-        <div className="w-1/2 flex flex-col h-full bg-card p-4 text-card-foreground rounded-md border border-slate-300 shadow-md">
-          <h1 className="font-semibold">Upcoming appointments</h1>
-          <div className="w-full h-full mt-4 overflow-y-scroll space-y-1 bg-slate-200 rounded-md">
-            {appointmentsArray.map((appointment) => (
-              <AppointmentCard key={appointment.index} {...appointment} />
-            ))}
-          </div>
+
+        <div className="w-full col-span-1">
+          <Card className="shadow-lg border border-slate-200">
+            <CardHeader>
+              <h2 className="text-xl font-semibold">Past Appointments</h2>
+            </CardHeader>
+            <Separator />
+            <CardContent className="p-4">
+              <ScrollArea className="h-96 w-full pr-2">
+                <div className="space-y-3">
+                  {appointmentsArray.map((appointment) => (
+                    <AppointmentCard key={appointment.index} {...appointment} />
+                  ))}
+                </div>
+              </ScrollArea>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-      <div className="w-full flex flex-col mt-8 h-3/4 bg-card p-4 text-card-foreground rounded-md border border-slate-300 shadow-md">
-        <h1 className="font-semibold">Past appointments</h1>
-        <div className="w-full h-full mt-4 overflow-y-scroll space-y-1 bg-slate-200 rounded-md">
-          {appointmentsArray.map((appointment) => (
-            <AppointmentCard key={appointment.index} {...appointment} />
-          ))}
-        </div>
-      </div>
-      <div>
-        <PatientForm />
       </div>
     </div>
   );
