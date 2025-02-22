@@ -84,24 +84,29 @@ export const registerUser = async (req,res )=>{
         if(!email||!password||!phoneNumber){
             return res.status(400).json({message:"All fields are required"});
         }
+        let result;
         switch (role) {
             case "caretaker":
-                registerCareTaker(email,password,phoneNumber);
+                result = await registerCareTaker(email,password,phoneNumber);
                 break;
             case "doctor":
-                registerDoctor(email,password,phoneNumber);
+                result = await registerDoctor(email,password,phoneNumber);
                 break;
             case "user":
-                registerPatient(email,password,phoneNumber);
+                result = await registerPatient(email,password,phoneNumber);
                 break;
             case "guardian":
-                registerGuardian(email,password,phoneNumber);
+                result = await registerGuardian(email,password,phoneNumber);
                 break;
             default:
-                res.status(400).json({message:"Invalid role"});
+                return res.status(400).json({message:"Invalid role"});
         }
         
-        res.status(200).json({message:"User registered successfully"});
+        if (result) {
+            res.status(200).json({message:"User registered successfully"});
+        } else {
+            res.status(500).json({message:"Registration failed"});
+        }
     } catch (error) {
         console.log("Error in register controller",error);
         res.status(500).json({message:"Internal Server Error"});
@@ -117,16 +122,18 @@ export const loginUser = async (req,res )=>{
         let user;
         switch (role) {
             case "caretaker":
-                user = await CareTaker.findOne({email});
+                user = await Caretaker.findOne({email});
                 break;
             case "doctor":
-                user = await Doctor.findOne({email});
+                user = await Doctor.findOne({email});   
                 break;
             case "user":
                 user = await User.findOne({email});
                 break;
             case "guardian":
                 user = await Guardian.findOne({email});
+                // console.log(user);
+                // console.log("guardian found")
                 break;
             default:
                 res.status(400).json({message:"Invalid role"});
@@ -138,6 +145,10 @@ export const loginUser = async (req,res )=>{
         if(!isMatch){
             return res.status(400).json({message:"Invalid email or password"});
         }
+
+        return res.status(200).json({
+            message:"logged in"
+        });
         // const accessToken = user.generateAccessToken();
         // const refreshToken = user.generateRefreshToken();
         // user.refreshToken = refreshToken;
@@ -147,5 +158,84 @@ export const loginUser = async (req,res )=>{
     } catch (error) {
         console.log("Error in login controller",error);
         res.status(500).json({message:"Internal Server Error"});
+    }
+}
+export const createRoom = async(req, res) => {
+    try{
+        console.log("here");
+        const {user, role, hash} = req.body;
+        console.log(req.body);
+
+        if(role==='patient'){
+            const findUser = await User.findOne({_id:user._id});
+            if(!findUser){
+                return res.status(400).json({message: "User not found"});
+            }
+            findUser.room = hash;
+            findUser.save();    
+        }
+        else if(role==='caretaker'){
+            const findCaretaker = await Caretaker.findOne({_id:user._id});
+            if(!findCaretaker){
+                return res.status(400).json({message: "User not found"});
+            }
+            findCaretaker.room = hash;
+            findCaretaker.save();
+        }
+        else if(role==='guardian'){
+            const findGuardian = await Guardian.findOne({_id:user._id});
+            if(!findGuardian){
+                return res.status(400).json({message: "User not found"});
+            }
+            findGuardian.room = hash;
+            findGuardian.save();
+        }
+        else if(role==='doctor'){ 
+            const findDoctor = await Doctor.findOne({_id:user._id});
+            if(!findDoctor){
+                return res.status(400).json({message: "User not found"});
+            }
+            findDoctor.room = hash;
+            findDoctor.save();
+        }
+        else{
+            return res.status(400).json({message: "Invalid role"});
+        }
+        
+        return res.status(201).json({message:"Room created Successfully"});
+
+    }catch(error){
+        return res.status(500).json({message: error.message});
+    }
+}
+
+export const deleteRoom = async(req, res) => {
+    try{
+        const {hash,role} = req.body;
+        let findUser;
+        if(role==='patient'){
+            findUser = await User.findOne({_id:user._id});
+        }
+        else if(role==='caretaker'){
+            findUser = await Caretaker.findOne({_id:user._id});
+        }
+        else if(role==='guardian'){
+            findUser = await Guardian.findOne({_id:user._id});
+        }
+        else if(role==='doctor'){ 
+            findUser = await Doctor.findOne({_id:user._id});
+        }
+        else{
+            return res.status(400).json({message: "Invalid role"});
+        }
+        if(!findUser){
+            return res.status(400).json({message: "User not found"});
+        }
+        findUser.room = null;
+        findUser.save();
+        
+    }
+    catch(error){
+        return res.status(500).json({message: error.message});
     }
 }

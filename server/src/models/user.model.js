@@ -28,6 +28,9 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref:'Caretaker'
     },
+    room:{
+        type:String,
+    },
     symptomHistory:{
         type: [
             {type:Schema.Types.ObjectId,
