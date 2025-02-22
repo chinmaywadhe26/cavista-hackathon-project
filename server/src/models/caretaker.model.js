@@ -62,5 +62,5 @@ userSchema.methods.genereateRefreshTokens=function(){
     )
 }
 */
-export const Caretaker= mongoose.model("CareTaker", caretakerSchema);
+export  const CareTaker= mongoose.model("CareTaker", caretakerSchema);
 

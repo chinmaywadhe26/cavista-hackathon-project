@@ -22,6 +22,7 @@ app.use(express.json());
 connectDb();
 app.use('/', router);
 
+
 const io = new Server(server, {
     cors: {
         origin: "http://localhost:3000",
@@ -30,6 +31,7 @@ const io = new Server(server, {
 });
 const socketUserMap = {};
 const rooms = {};
+
 
 io.on("connection", (socket) => {
     console.log("New connection", socket.id);
