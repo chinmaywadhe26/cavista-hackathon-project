@@ -1,6 +1,7 @@
 import {Doctor} from '../models/doctor.model';
 import {Patient} from '../models/patient.model';
 import {Caretaker} from '../models/caretaker.model';
+import { User } from '../models/user.model';
 export const assignDoctor = async (req,res,next)=>{
     try{
         const {doctorId,patientId} = req.body;
@@ -20,4 +21,23 @@ export const assignDoctor = async (req,res,next)=>{
     }
 }
 
+export const getAllcaretakers = async(req,res,next)=>{
+    try{
+        const caretakers = await Caretaker.find();
+        res.status(200).json({caretakers});
+    }catch(error){
+        next(error);
+    }
+}
+
+export const getCaretaker = async(req,res,next)=>{
+    try{
+        const {userId} = req.body;
+        const caretaker = await User.findById(userId).populate('caretaker');
+        return res.status(200).json({caretaker: caretaker.caretaker});
+    }
+    catch(error){
+        next(error);
+    }
+}
 

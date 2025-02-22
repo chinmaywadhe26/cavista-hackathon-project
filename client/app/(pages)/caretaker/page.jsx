@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Users, Star } from "lucide-react";
 import PatientModal from "@/components/PatientModal";
 import PatientCard from "@/components/PatientCard";
+import useAuthStore from "@/store/useAuthStore";
 
 const mockCaretaker = {
   username: "dr.smith",
@@ -56,7 +57,16 @@ const mockCaretaker = {
 
 function caretaker() {
   const [selectedPatient, setSelectedPatient] = useState(null);
-
+  cosnt [caretaker,setCaretaker] = useState(null);
+  const user = useAuthStore((state)=>state.user);
+  useEffect(()=>{
+    const fetchCaretaker = async()=>{
+      const response = await fetch("http://localhost:5000/getCaretaker" ,{method:'POST', headers:{'Content-Type': 'application/json'}, body:JSON.stringify({userId:user._id})});
+      const data = await response.json();
+      setCaretaker(data.caretaker);
+    }
+    fetchCaretaker();
+  },[]);
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
