@@ -22,6 +22,9 @@ const caretakerSchema = new Schema({
         type: Number,
         required: true,
     },
+    room:{
+        type:String,
+    },
     patients: {
         type: [
             {
