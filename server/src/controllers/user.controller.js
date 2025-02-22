@@ -24,6 +24,7 @@ const registerCareTaker  = async (email,password,phoneNumber)=>{
     }
 }
 
+
 const registerDoctor = async (email,password,phoneNumber)=>{
     try {
         const hashedPassword = await bcrypt.hash(password,10);
@@ -75,6 +76,7 @@ const registerGuardian = async (email,password,phoneNumber)=>{
         return null;
     }
 }
+
 export const registerUser = async (req,res )=>{
     try {
         const {role,email,password,phoneNumber} = req.body;
