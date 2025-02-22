@@ -91,7 +91,7 @@ const Appointments = () => {
         </div>
       </div>
       <div>
-        <PatientForm />
+        {/* <PatientForm /> */}
       </div>
     </div>
   );

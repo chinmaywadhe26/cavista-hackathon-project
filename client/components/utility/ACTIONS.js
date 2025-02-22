@@ -7,10 +7,4 @@ export const ACTIONS = {
     RELAY_SDP: "relay-sdp",
     SESSION_DESCRIPTION: "session-description",
     ICE_CANDIDATE: "ice-candidate",
-    MUTE: "mute",
-    UNMUTE: "unmute",
-    MUTE_INFO: "mute-info",
-    PLAY_SONG: "play-song",
-    PAUSE_SONG: "pause-song",
-    FORCE_LEAVE: "force-leave",
 };

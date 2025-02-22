@@ -1,5 +1,5 @@
-import { Symptoms } from "../models/symptoms.model";
-import { User } from "../models/user.model";
+import { Symptoms } from "../models/symptoms.model.js";
+import { User } from "../models/user.model.js";
 
 export const fillSymptoms = async (req, res) => {
     try {

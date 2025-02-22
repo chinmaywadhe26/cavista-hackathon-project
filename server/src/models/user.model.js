@@ -1,10 +1,10 @@
 import mongoose, {Schema, SchemaTypes} from "mongoose";
+
 import jwt from "jsonwebtoken";
 const userSchema = new Schema({
     guardianEmail:{
         type:String
-    }
-    ,
+    },
     username:{
         type: String,
         required: true,
@@ -23,6 +23,10 @@ const userSchema = new Schema({
     },
     refreshToken:{
         type:String,
+    },
+    caretaker :{
+        type: Schema.Types.ObjectId,
+        ref:'Caretaker'
     },
     symptomHistory:{
         type: [

@@ -48,10 +48,7 @@ const items = [
     url: "/patient/appointments",
     icon: CalendarCheck2,
   },
-
-    url: "/caretaker",
-    icon: Home,
-  },
+  
   //   {
   //     title: "Inbox",
   //     url: "#",
