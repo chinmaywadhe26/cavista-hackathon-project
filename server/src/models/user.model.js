@@ -1,4 +1,4 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, {Schema, SchemaTypes} from "mongoose";
 import jwt from "jsonwebtoken";
 const userSchema = new Schema({
     
@@ -20,6 +20,14 @@ const userSchema = new Schema({
     },
     refreshToken:{
         type:String,
+    },
+    symptomHistory:{
+        type: [
+            {type:Schema.Types.ObjectId,
+                ref:'Symptoms' 
+            }
+        ]
+    
     }
 },
 {

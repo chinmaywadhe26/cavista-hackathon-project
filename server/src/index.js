@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.json());        
 connectDb();
 
-app.use('/',router);
+app.use('/api',router);
 
 app.listen(port, ()=>{
     console.log(`Server is listening on port http://localhost:${port}`);
