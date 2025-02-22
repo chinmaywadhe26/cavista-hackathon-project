@@ -35,6 +35,17 @@ const userSchema = new Schema({
             }
         ]
     
+    },
+    date:{
+        type:[
+            {
+                date:Date,
+                // symptoms:{
+                //     type:Schema.Types.ObjectId,
+                //     ref:'Symptoms'
+                // }
+            }
+        ]
     }
 },
 {
