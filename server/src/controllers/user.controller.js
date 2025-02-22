@@ -1,4 +1,4 @@
-import {CareTaker} from "../models/caretaker.model.js";
+import {Caretaker} from "../models/caretaker.model.js";
 import {Doctor} from "../models/doctor.model.js";
 import  {Guardian}  from "../models/guardian.model.js";
 import {User} from "../models/user.model.js";
