@@ -1,3 +1,4 @@
+
 import {
   Calendar,
   Home,
@@ -9,6 +10,7 @@ import {
   CalendarCheck2,
 } from "lucide-react";
 
+
 import {
   Sidebar,
   SidebarContent,
@@ -19,12 +21,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+
 import Link from "next/link";
+
 
 // Menu items.
 const items = [
   {
     title: "Home",
+
     url: "/patient",
     icon: Home,
   },
@@ -43,6 +48,16 @@ const items = [
     url: "/patient/appointments",
     icon: CalendarCheck2,
   },
+
+    url: "/caretaker",
+    icon: Home,
+  },
+  //   {
+  //     title: "Inbox",
+  //     url: "#",
+  //     icon: Inbox,
+  //   },
+
   //   {
   //     title: "Calendar",
   //     url: "#",
@@ -65,16 +80,27 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
+
           <SidebarGroupLabel>Patient</SidebarGroupLabel>
+
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
+
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
+
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
+
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
