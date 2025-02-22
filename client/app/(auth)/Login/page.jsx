@@ -1,30 +1,82 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-
+import useAuthStore from "@/store/useAuthStore";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Login = () => {
+  const router = useRouter();
+  const login = useAuthStore((state) => state.login);
+
+  const [user, setUser] = useState({
+    role: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { role, email, password } = user;
+      console.log("role:", role);
+      console.log("email:", email);
+      const { data } = await axios.post(
+        "http://localhost:5000/login",
+        {
+          role,
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      login(email, role);
+      console.log("data stored");
+      if (role === "user") {
+        router.push("/patient");
+      } else if (role === "doctor") {
+        router.push("/doctor");
+      } else if (role === "guardian") {
+        console.log("role :", role);
+        router.push("/guardian");
+      } else {
+        router.push("/caretaker");
+      }
+      console.log("page change");
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+    }
+  };
+
   return (
     <div className="mt-20 flex min-h-screen items-center justify-center w-full">
       <div className="bg-white shadow-md rounded-3xl px-5 py-6 w-full sm:w-[27rem]">
         <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
-        {/* onSubmit={(e) => handleSubmit(e)} */}
-        <form>
+
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-4">
             <label
-              htmlFor="username"
+              htmlFor="email"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              username
+              email
             </label>
             <input
-              type="text"
-              name="username"
-              id="username"
-              //   onChange={(e) => handleChange(e)}
-              placeholder="username"
+              type="email"
+              name="email"
+              id="email"
+              onChange={(e) => handleChange(e)}
+              placeholder="email"
               className="shadow-md rounded-md w-full  px-3 py-2 border-gray-300 focus:outline-none focus:ring-black focus:border-black"
             />
           </div>
@@ -41,19 +93,22 @@ const Login = () => {
               name="password"
               id="password"
               placeholder="password"
-              //   onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e)}
               className="shadow-md rounded-md w-full  px-3 py-2 border-gray-300 focus:outline-none focus:ring-black focus:border-black"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="roles">Role:</label>
+            <label htmlFor="role">Role:</label>
             <select
-              name="roles"
+              name="role"
+              onChange={(e) => handleChange(e)}
               className="shadow-md rounded-md w-full  px-3 py-2 border-gray-300 focus:outline-none focus:ring-black focus:border-black"
             >
-              <option value="patient">patient</option>
+              <option value="">Select account type</option>
+              <option value="user">user</option>
               <option value="caretaker">caretaker</option>
               <option value="doctor">doctor</option>
+              <option value="guardian">guardian</option>
             </select>
           </div>
           <div className="flex items-center justify-end mb-4">

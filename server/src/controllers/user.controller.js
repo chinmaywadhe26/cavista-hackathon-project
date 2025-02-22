@@ -117,16 +117,18 @@ export const loginUser = async (req,res )=>{
         let user;
         switch (role) {
             case "caretaker":
-                user = await CareTaker.findOne({email});
+                user = await Caretaker.findOne({email});
                 break;
             case "doctor":
-                user = await Doctor.findOne({email});
+                user = await Doctor.findOne({email});   
                 break;
             case "user":
                 user = await User.findOne({email});
                 break;
             case "guardian":
                 user = await Guardian.findOne({email});
+                // console.log(user);
+                // console.log("guardian found")
                 break;
             default:
                 res.status(400).json({message:"Invalid role"});
@@ -138,6 +140,10 @@ export const loginUser = async (req,res )=>{
         if(!isMatch){
             return res.status(400).json({message:"Invalid email or password"});
         }
+
+        return res.status(200).json({
+            message:"logged in"
+        });
         // const accessToken = user.generateAccessToken();
         // const refreshToken = user.generateRefreshToken();
         // user.refreshToken = refreshToken;
