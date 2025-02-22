@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const router = useRouter();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -114,6 +116,7 @@ const Signup = () => {
             </Link>
           </div>
           <button
+            onClick={() => router.push("/Login")}
             type="submit"
             className="w-full py-2 px-4 rounded-md shadow-md text-sm font-medium text-white bg-black"
           >

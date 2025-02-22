@@ -9,7 +9,7 @@ import bcrypt from "bcrypt";
 const registerCareTaker  = async (email,password,phoneNumber)=>{
     try {
         const hashedPassword = await bcrypt.hash(password,10);
-        const caretaker = new CareTaker({
+        const caretaker = new Caretaker({
             email,
             password:hashedPassword,
             phoneNumber,
