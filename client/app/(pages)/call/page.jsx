@@ -4,15 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000"); // Update with your server URL
-
-
-
+const socket = io("http://localhost:3000");
 
 
 const Call = () => {
   const [callActive, setCallActive] = useState(false);
-  
+  const [patients, setPatients] = useState([]);
   const router = useRouter();
   useEffect(() => {
     socket.emit("check-active-room");
@@ -26,7 +23,14 @@ const Call = () => {
 
     };
   }, []);
-
+  useEffect(() => {
+    const fetchPatients = async () => {
+      const response = await fetch("http://localhost:5000/getUsers");
+      const data = await response.json();
+      setPatients(data.users);
+    };
+    fetchPatients();
+  });
   const startCall = async () => {
     const hashkey = Math.random().toString(36).substring(2, 10);
     const data = {
@@ -61,6 +65,17 @@ const Call = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-xl mb-4">Video Call App</h1>
+      {patients.map((patient) => (
+        <div key={patient._id} className="flex gap-4 items-center">
+          <p>{patient.email}</p>
+         <button
+            onClick={() => router.push(`/call/${patient.room}`)}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+           {patient.room===null ? "Start Call" : "Join Call"}
+          </button>
+        </div>
+      ))}
       {callActive ? (
         <p className="text-red-500">A call is already in progress.</p>
       ) : (
@@ -68,6 +83,7 @@ const Call = () => {
           Start Call
         </button>
       )}
+
     </div>
   );
 };
