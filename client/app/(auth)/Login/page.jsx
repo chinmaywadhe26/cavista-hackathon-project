@@ -9,7 +9,7 @@ const Login = () => {
   return (
     <div className="mt-20 flex min-h-screen items-center justify-center w-full">
       <div className="bg-white shadow-md rounded-3xl px-5 py-6 w-full sm:w-[27rem]">
-        <h1 className="text-2xl font-bold text-center mb-4">Let's connect!</h1>
+        <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
         {/* onSubmit={(e) => handleSubmit(e)} */}
         <form>
           <div className="mb-4">

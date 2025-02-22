@@ -9,7 +9,7 @@ import bcrypt from "bcrypt";
 const registerCareTaker  = async (email,password,phoneNumber)=>{
     try {
         const hashedPassword = await bcrypt.hash(password,10);
-        const caretaker = new CareTaker({
+        const caretaker = new Caretaker({
             email,
             password:hashedPassword,
             phoneNumber,
@@ -80,6 +80,7 @@ const registerGuardian = async (email,password,phoneNumber)=>{
 export const registerUser = async (req,res )=>{
     try {
         const {role,email,password,phoneNumber} = req.body;
+        console.log("inside user");
         if(!email||!password||!phoneNumber){
             return res.status(400).json({message:"All fields are required"});
         }
