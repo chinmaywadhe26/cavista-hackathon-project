@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-=======
 "use client";
->>>>>>> Stashed changes
 
 import {
   Inbox,
@@ -9,7 +6,6 @@ import {
   UserRoundPen,
   CalendarCheck2,
 } from "lucide-react";
-
 
 import {
   Sidebar,
@@ -25,19 +21,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-
 // Menu items.
 const items = [
   {
-<<<<<<< Updated upstream
-    title: "Home",
-
-    url: "/patient",
-    icon: Home,
-  },
-  {
-=======
->>>>>>> Stashed changes
     title: "Profile",
     url: "/patient",
     icon: UserRoundPen,
@@ -52,39 +38,11 @@ const items = [
     url: "/patient/appointments",
     icon: CalendarCheck2,
   },
-<<<<<<< Updated upstream
-
-    url: "/caretaker",
-    icon: Home,
-  },
-  //   {
-  //     title: "Inbox",
-  //     url: "#",
-  //     icon: Inbox,
-  //   },
-
-  //   {
-  //     title: "Calendar",
-  //     url: "#",
-  //     icon: Calendar,
-  //   },
-  //   {
-  //     title: "Search",
-  //     url: "#",
-  //     icon: Search,
-  //   },
-  //   {
-  //     title: "Settings",
-  //     url: "#",
-  //     icon: Settings,
-  //   },
-=======
   {
     title: "Chat",
     url: "/patient/chat",
     icon: Inbox,
   },
->>>>>>> Stashed changes
 ];
 
 export function AppSidebar() {
@@ -93,32 +51,12 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-
           <SidebarGroupLabel>Patient</SidebarGroupLabel>
 
           <SidebarGroupLabel>Application</SidebarGroupLabel>
 
           <SidebarGroupContent>
             <SidebarMenu>
-<<<<<<< Updated upstream
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-=======
               {items.map((item) => {
                 const isActive = pathname === item.url;
                 return (
@@ -144,7 +82,6 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 );
               })}
->>>>>>> Stashed changes
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
