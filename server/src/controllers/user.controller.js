@@ -80,6 +80,7 @@ const registerGuardian = async (email,password,phoneNumber)=>{
 export const registerUser = async (req,res )=>{
     try {
         const {role,email,password,phoneNumber} = req.body;
+        console.log("inside user");
         if(!email||!password||!phoneNumber){
             return res.status(400).json({message:"All fields are required"});
         }
