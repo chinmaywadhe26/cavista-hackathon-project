@@ -19,6 +19,9 @@ const doctorSchema = new Schema({
         type: String,
         required: true,
     },
+    room:{
+        type:String,
+    },
      patients: {
         type: [
             {

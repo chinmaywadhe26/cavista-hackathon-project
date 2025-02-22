@@ -16,6 +16,9 @@ const guardianSchema = new Schema({
         type: String,
         required: true,
     },
+    room:{
+        type:String,
+    },
     refreshToken:{
         type:String,
     },
