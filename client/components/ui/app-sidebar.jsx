@@ -23,17 +23,21 @@ import {
 } from "@/components/ui/sidebar";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 
 // Menu items.
 const items = [
   {
+<<<<<<< Updated upstream
     title: "Home",
 
     url: "/patient",
     icon: Home,
   },
   {
+=======
+>>>>>>> Stashed changes
     title: "Profile",
     url: "/patient",
     icon: UserRoundPen,
