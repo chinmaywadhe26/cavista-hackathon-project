@@ -6,6 +6,7 @@ import {
   Settings,
   ChartNoAxesCombined,
   UserRoundPen,
+  CalendarCheck2,
 } from "lucide-react";
 
 import {
@@ -36,6 +37,11 @@ const items = [
     title: "Analytics",
     url: "/patient/analytics",
     icon: ChartNoAxesCombined,
+  },
+  {
+    title: "Appointments",
+    url: "/patient/appointments",
+    icon: CalendarCheck2,
   },
   //   {
   //     title: "Calendar",
