@@ -10,7 +10,5 @@ export const ACTIONS = {
     MUTE: "mute",
     UNMUTE: "unmute",
     MUTE_INFO: "mute-info",
-    PLAY_SONG: "play-song",
-    PAUSE_SONG: "pause-song",
-    FORCE_LEAVE: "force-leave",
+ 
 };

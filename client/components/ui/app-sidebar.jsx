@@ -1,4 +1,3 @@
-
 import {
   Calendar,
   Home,
@@ -9,7 +8,6 @@ import {
   UserRoundPen,
   CalendarCheck2,
 } from "lucide-react";
-
 
 import {
   Sidebar,
@@ -23,7 +21,6 @@ import {
 } from "@/components/ui/sidebar";
 
 import Link from "next/link";
-
 
 // Menu items.
 const items = [
@@ -49,9 +46,7 @@ const items = [
     icon: CalendarCheck2,
   },
 
-    url: "/caretaker",
-    icon: Home,
-  },
+  { url: "/caretaker", icon: Home },
   //   {
   //     title: "Inbox",
   //     url: "#",
@@ -80,7 +75,6 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-
           <SidebarGroupLabel>Patient</SidebarGroupLabel>
 
           <SidebarGroupLabel>Application</SidebarGroupLabel>
@@ -90,7 +84,6 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -100,7 +93,6 @@ export function AppSidebar() {
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
-
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
