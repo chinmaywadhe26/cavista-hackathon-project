@@ -104,9 +104,7 @@ export default function page() {
 			const iceServers = [
 				...freeice(),
 				{
-					urls: "turn:relay1.expressturn.com:3478",
-					username: "efRP4CLC6TNZZ0JZ74",
-					credential: "1N0fOLTsrfVihnyN",
+				
 				},
 			];
 			connections.current[peerId] = new RTCPeerConnection({
