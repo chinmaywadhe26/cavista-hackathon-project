@@ -3,7 +3,9 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import io from "socket.io-client";
 
-const call = () => {
+
+ const Call = () => {
+
   const [localStream, setLocalStream] = useState(null);
   const [remoteStream, setRemoteStream] = useState(null);
   const [localPeerConnection, setLocalPeerConnection] = useState(null);
@@ -135,4 +137,6 @@ const call = () => {
   );
 };
 
-export default call;
+
+export default Call;
+
