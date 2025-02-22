@@ -40,7 +40,7 @@ const caretaker = () => {
     <div className="flex flex-col w-screen">
       <div className="w-1/2 h-60 rounded-xl m-9 bg-blue-300 flex flex-col justify-between">
         <div className="h-1/2 rounded-xl">
-          <h3 className="text-xl ml-6 mt-2">Good morning, caretaker name</h3>
+          <h3 className="text-xl ml-6 mt-2">Greetings, caretaker name</h3>
           <p className="text-2xl ml-6 font-semibold">Calls for today</p>
           <p className="text-4xl ml-6 font-semibold">66</p>
         </div>
