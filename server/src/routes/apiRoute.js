@@ -14,6 +14,6 @@ router.post('/createRoom', createRoom);
 router.post('/deleteRoom', deleteRoom);
 router.get('/getUsers', getAllUsers);
 router.get('/getCaretakers', getAllcaretakers);
-router.post('/getCaretaker', getCaretaker);
+router.post('/getCaretakerForUser', getCaretaker);
 
 export default router;
