@@ -102,6 +102,7 @@ export const registerUser = async (req,res )=>{
         }
         
         res.status(200).json({message:"User registered successfully"});
+        console.log("user registered successfully");
     } catch (error) {
         console.log("Error in register controller",error);
         res.status(500).json({message:"Internal Server Error"});
@@ -117,16 +118,16 @@ export const loginUser = async (req,res )=>{
         let user;
         switch (role) {
             case "caretaker":
-                user = await Caretaker.findOne({email});
+                user =  Caretaker.findOne({email});
                 break;
             case "doctor":
-                user = await Doctor.findOne({email});   
+                user =  Doctor.findOne({email});   
                 break;
             case "user":
-                user = await User.findOne({email});
+                user =  User.findOne({email});
                 break;
             case "guardian":
-                user = await Guardian.findOne({email});
+                user =  Guardian.findOne({email});
                 // console.log(user);
                 // console.log("guardian found")
                 break;
