@@ -2,7 +2,7 @@ import React from "react";
 import { UserRound, Mail, Clock } from "lucide-react";
 
 function PatientCard({ patient, onClick }) {
-  const activeSymptoms = Object.values(patient.symptoms).filter(
+  const activeSymptoms = Object.values(patient?.symptomHistory).filter(
     (value) => value >= 3
   ).length;
 

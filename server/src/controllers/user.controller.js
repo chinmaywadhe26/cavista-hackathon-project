@@ -87,16 +87,16 @@ export const registerUser = async (req,res )=>{
         let result;
         switch (role) {
             case "caretaker":
-                result = await registerCareTaker(email,password,phoneNumber);
+                result =  registerCareTaker(email,password,phoneNumber);
                 break;
             case "doctor":
-                result = await registerDoctor(email,password,phoneNumber);
+                result =  registerDoctor(email,password,phoneNumber);
                 break;
             case "user":
-                result = await registerPatient(email,password,phoneNumber);
+                result =  registerPatient(email,password,phoneNumber);
                 break;
             case "guardian":
-                result = await registerGuardian(email,password,phoneNumber);
+                result =  registerGuardian(email,password,phoneNumber);
                 break;
             default:
                 return res.status(400).json({message:"Invalid role"});
@@ -232,10 +232,19 @@ export const deleteRoom = async(req, res) => {
             return res.status(400).json({message: "User not found"});
         }
         findUser.room = null;
-        findUser.save();
+                findUser.save();
         
     }
     catch(error){
+        return res.status(500).json({message: error.message});
+    }
+}
+export const getAllUsers = async(req, res) => {
+    try{
+        const users = await User.find().populate('caretaker').populate('symptomHistory');
+        console.log(users);
+        return res.status(200).json({users});
+    }catch(error){
         return res.status(500).json({message: error.message});
     }
 }

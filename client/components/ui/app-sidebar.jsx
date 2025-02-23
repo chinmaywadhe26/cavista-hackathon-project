@@ -1,9 +1,10 @@
+
+
+
+"use client";
+
 import {
-  Calendar,
-  Home,
   Inbox,
-  Search,
-  Settings,
   ChartNoAxesCombined,
   UserRoundPen,
   CalendarCheck2,
@@ -21,18 +22,13 @@ import {
 } from "@/components/ui/sidebar";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-
-    url: "/patient",
-    icon: Home,
-  },
-  {
     title: "Profile",
-    url: "/patient/profile",
+    url: "/patient",
     icon: UserRoundPen,
   },
   {
@@ -45,32 +41,16 @@ const items = [
     url: "/patient/appointments",
     icon: CalendarCheck2,
   },
+  {
+    title: "Chat",
+    url: "/patient/chat",
+    icon: Inbox,
+  },
 
-  { url: "/caretaker", icon: Home },
-  //   {
-  //     title: "Inbox",
-  //     url: "#",
-  //     icon: Inbox,
-  //   },
-
-  //   {
-  //     title: "Calendar",
-  //     url: "#",
-  //     icon: Calendar,
-  //   },
-  //   {
-  //     title: "Search",
-  //     url: "#",
-  //     icon: Search,
-  //   },
-  //   {
-  //     title: "Settings",
-  //     url: "#",
-  //     icon: Settings,
-  //   },
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarContent>
@@ -81,21 +61,31 @@ export function AppSidebar() {
 
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const isActive = pathname === item.url;
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={item.url}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-md ${
+                          isActive
+                            ? "bg-blue-500 text-white font-semibold hover:bg-blue-500 hover:text-white"
+                            : "hover:border hover:border-blue-500"
+                        }`}>
+                        <item.icon
+                          className={`w-5 h-5 transition-colors ${
+                            isActive
+                              ? "text-white hover:text-white"
+                              : "text-gray-600"
+                          }`}
+                        />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

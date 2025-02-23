@@ -38,7 +38,7 @@ function PatientModal({ patient, onClose }) {
                   Guardian Email: {patient.guardianEmail}
                 </p>
                 <p className="text-gray-700">
-                  Last Checkup: {patient.lastCheckup}
+                  Last Checkup: {patient.date ? patient.date[0] : "N/A"}
                 </p>
               </div>
 
@@ -49,16 +49,16 @@ function PatientModal({ patient, onClose }) {
                 </h3>
                 <SymptomBar
                   label="Pain Levels"
-                  value={patient.symptoms.painLevels}
+                  value={patient.symptomHistory? patient.symptomHistory.painLevels : 0}
                 />
                 <SymptomBar
                   label="Mobility Issues"
-                  value={patient.symptoms.mobilityIssues}
+                  value={patient.symptomHistory? patient.symptomHistory.mobilityIssues : 0}
                 />
-                <SymptomBar label="Fatigue" value={patient.symptoms.fatigue} />
+                <SymptomBar label="Fatigue" value={patient.symptomHistory ? patient.symptomHistory.fatigue : 0} />
                 <SymptomBar
                   label="Breathing Problems"
-                  value={patient.symptoms.breathingProblems}
+                  value={patient.symptomHistory ? patient.symptomHistory.breathingProblems : 0}
                 />
               </div>
             </div>
@@ -71,19 +71,19 @@ function PatientModal({ patient, onClose }) {
                 </h3>
                 <SymptomBar
                   label="Memory Issues"
-                  value={patient.symptoms.memoryIssue}
+                  value={patient.symptomHistory ? patient.symptomHistory.memoryIssues : 0}
                 />
                 <SymptomBar
                   label="Confusion/Disorientation"
-                  value={patient.symptoms.confusionDisorientation}
+                  value={patient.symptomHistory ? patient.symptomHistory.confusionDisorientation : 0}
                 />
                 <SymptomBar
                   label="Mood Swings"
-                  value={patient.symptoms.moodSwings}
+                  value={patient.symptomsymptomHistory ? patient.symptomHistory.moodSwings : 0}
                 />
                 <SymptomBar
                   label="Tremors/Shaking"
-                  value={patient.symptoms.tremorsShaking}
+                  value={patient.symptomHistory ? patient.symptomHistory.tremorsShaking : 0}
                 />
               </div>
 
@@ -94,19 +94,19 @@ function PatientModal({ patient, onClose }) {
                 </h3>
                 <SymptomBar
                   label="Sleep Patterns"
-                  value={patient.symptoms.sleepPatterns}
+                  value={patient.symptomHistory ? patient.symptomHistory.sleepPatterns : 0}
                 />
                 <SymptomBar
                   label="Appetite/Weight"
-                  value={patient.symptoms.appetiteWeight}
+                  value={patient.symptomHistory ?   patient.symptomHistory.appetiteWeight : 0}
                 />
                 <SymptomBar
                   label="Numbness/Tingling"
-                  value={patient.symptoms.numbnessTingling}
+                  value={patient.symptomHistory ? patient.symptomHistory.numbnessTingling : 0}
                 />
                 <SymptomBar
                   label="Urination Frequency"
-                  value={patient.symptoms.frequencyOfUrination}
+                  value={patient.symptomHistory ? patient.symptomHistory.frequencyOfUrination : 0}
                 />
               </div>
             </div>

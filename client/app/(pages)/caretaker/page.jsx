@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Users, Star } from "lucide-react";
 import PatientModal from "@/components/PatientModal";
 import PatientCard from "@/components/PatientCard";
+import useAuthStore from "@/store/useAuthStore";
 
 const mockCaretaker = {
   username: "dr.smith",
@@ -56,7 +57,19 @@ const mockCaretaker = {
 
 function caretaker() {
   const [selectedPatient, setSelectedPatient] = useState(null);
-
+  const [caretaker,setCaretaker] = useState(null);
+  const [patients, setPatients] = useState([]);
+  const user = useAuthStore((state)=>state.user);
+  useEffect(() => {
+      const fetchPatients = async () => {
+        const response = await fetch("http://localhost:5000/getUsers");
+        const data = await response.json();
+        setPatients(data.users);
+      };
+      fetchPatients();
+      console.log(patients);
+    },[]);
+  
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -93,9 +106,9 @@ function caretaker() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockCaretaker.patients.map((patient) => (
+          {patients.map((patient) => (
             <PatientCard
-              key={patient.id}
+              key={patient._id}
               patient={patient}
               onClick={() => setSelectedPatient(patient)}
             />
