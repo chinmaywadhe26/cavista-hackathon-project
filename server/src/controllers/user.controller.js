@@ -102,13 +102,11 @@ export const registerUser = async (req,res )=>{
                 return res.status(400).json({message:"Invalid role"});
         }
         
-
         if (result) {
             res.status(200).json({message:"User registered successfully"});
         } else {
             res.status(500).json({message:"Registration failed"});
         }
-
     } catch (error) {
         console.log("Error in register controller",error);
         res.status(500).json({message:"Internal Server Error"});
