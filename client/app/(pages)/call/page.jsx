@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+  import { useRouter } from "next/navigation";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000"); // Update with your server URL
+const socket = io("http://localhost:3000"); 
 
 
 
