@@ -1,7 +1,6 @@
-import {Doctor} from '../models/doctor.model';
-import {Patient} from '../models/patient.model';
-import {Caretaker} from '../models/caretaker.model';
-import { User } from '../models/user.model';
+import {Doctor} from '../models/doctor.model.js';
+import {Caretaker} from '../models/caretaker.model.js';
+import { User } from '../models/user.model.js';
 export const assignDoctor = async (req,res,next)=>{
     try{
         const {doctorId,patientId} = req.body;
@@ -32,12 +31,14 @@ export const getAllcaretakers = async(req,res,next)=>{
 
 export const getCaretaker = async(req,res,next)=>{
     try{
+        console.log("here");
         const {userId} = req.body;
-        const caretaker = await User.findById(userId).populate('caretaker');
+        const caretaker = await User.findOne({email:userId}).populate('caretaker');
+        console.log("Caretaker",caretaker);
         return res.status(200).json({caretaker: caretaker.caretaker});
     }
     catch(error){
-        next(error);
+        return res.status(400).json({msg:"Failed to fetch caretaker"});
     }
 }
 
