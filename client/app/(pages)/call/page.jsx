@@ -70,25 +70,11 @@ const Call = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-xl mb-4">Video Call App</h1>
-      {patients.map((patient) => (
-        <div key={patient._id} className="flex gap-4 items-center">
-          <p>{patient.email}</p>
-         <button
-            onClick={() => router.push(`/call/${patient.room}`)}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
-          >
-           {patient.room===null ? "Start Call" : "Join Call"}
-          </button>
-        </div>
-      ))}
-      {callActive ? (
-        <p className="text-red-500">A call is already in progress.</p>
-      ) : (
+     
         <button onClick={startCall} className="px-4 py-2 bg-blue-500 text-white rounded">
           Start Call
         </button>
-      )}
-
+      
     </div>
   );
 };

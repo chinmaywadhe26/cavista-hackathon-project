@@ -33,41 +33,41 @@ const io = new Server(server, {
 
 let activeRoom = null; 
 
-io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+// io.on("connection", (socket) => {
+//   console.log("User connected:", socket.id);
 
-  socket.on("join-room", (room) => {
-    socket.join(room);
-    activeRoom = room; 
-    socket.to(room).emit("user-joined", socket.id);
-  });
+//   socket.on("join-room", (room) => {
+//     socket.join(room);
+//     activeRoom = room; 
+//     socket.to(room).emit("user-joined", socket.id);
+//   });
 
-  socket.on("offer", (data) => {
-    socket.to(data.room).emit("offer", data.offer);
-  });
+//   socket.on("offer", (data) => {
+//     socket.to(data.room).emit("offer", data.offer);
+//   });
 
-  socket.on("answer", (data) => {
-    socket.to(data.room).emit("answer", data.answer);
-  });
+//   socket.on("answer", (data) => {
+//     socket.to(data.room).emit("answer", data.answer);
+//   });
 
-  socket.on("ice-candidate", (data) => {
-    socket.to(data.room).emit("ice-candidate", data.candidate);
-  });
+//   socket.on("ice-candidate", (data) => {
+//     socket.to(data.room).emit("ice-candidate", data.candidate);
+//   });
 
-  socket.on("disconnect", () => {
-    io.emit("user-left", socket.id);
-    activeRoom = null; 
-  });
+//   socket.on("disconnect", () => {
+//     io.emit("user-left", socket.id);
+//     activeRoom = null; 
+//   });
 
-  socket.on("end-call", (room) => {
-    io.to(room).emit("call-ended");
-    activeRoom = null;
-  });
+//   socket.on("end-call", (room) => {
+//     io.to(room).emit("call-ended");
+//     activeRoom = null;
+//   });
 
-  socket.on("check-active-room", () => {
-    socket.emit("active-room-status", activeRoom !== null);
-  });
-});
+//   socket.on("check-active-room", () => {
+//     socket.emit("active-room-status", activeRoom !== null);
+//   });
+// });
 
 
 server.listen(port, () => {

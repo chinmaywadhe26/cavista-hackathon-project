@@ -1,387 +1,148 @@
-"use client";
 import { useState } from "react";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 const formSchema = z.object({
-  pain_levels: z.number().min(0).max(10),
-  mobility_issues: z.number().min(0).max(10),
-  fatigue: z.number().min(0).max(10),
-  appetite_weight: z.number().min(0).max(10),
-  memory_issues: z.number().min(0).max(10),
-  disorientation: z.number().min(0).max(10),
-  mood_swings: z.number().min(0).max(10),
-  sleep_patterns: z.number().min(0).max(10),
-  breathing: z.number().min(0).max(10),
-  tremors_shaking: z.number().min(0).max(10),
-  numbness_tingling: z.number().min(0).max(10),
-  urination: z.number().min(0).max(10),
-  consultation: z.number().min(0).max(10),
+  PainLevels: z.coerce.number().min(1).max(10),
+  MobilityIssues: z.coerce.number().min(1).max(10),
+  FatigueAppetiteWeight: z.coerce.number().min(1).max(10),
+  MemoryIssue: z.coerce.number().min(1).max(10),
+  ConfusionDisorientation: z.coerce.number().min(1).max(10),
+  MoodSwings: z.coerce.number().min(1).max(10),
+  SleepPatterns: z.coerce.number().min(1).max(10),
+  BreathingProblems: z.coerce.number().min(1).max(10),
+  TremorsShaking: z.coerce.number().min(1).max(10),
+  NumbnessTingling: z.coerce.number().min(1).max(10),
+  FrequencyOfUrination: z.coerce.number().min(1).max(10),
+  userName: z.string().min(1),
 });
 
-export default function MyForm() {
+const symptomFields = [
+  { name: "PainLevels", label: "How would you rate your pain?" },
+  { name: "MobilityIssues", label: "Are you having trouble walking?" },
+  { name: "FatigueAppetiteWeight", label: "Changes in appetite or weight?" },
+  { name: "MemoryIssue", label: "Finding it hard to remember things?" },
+  { name: "ConfusionDisorientation", label: "Do you know where you are?" },
+  { name: "MoodSwings", label: "Feeling unusually sad or irritable?" },
+  { name: "SleepPatterns", label: "Did you sleep well last night?" },
+  { name: "BreathingProblems", label: "Any shortness of breath?" },
+  { name: "TremorsShaking", label: "Noticed any shaking or trembling?" },
+  { name: "NumbnessTingling", label: "Experiencing numbness in hands/feet?" },
+  { name: "FrequencyOfUrination", label: "Urinating more often than usual?" },
+];
+
+export default function SymptomForm() {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
   const form = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues: symptomFields.reduce((acc, { name }) => {
+      acc[name] = 1;
+      return acc;
+    }, { userName: "" }),
   });
 
-  function onSubmit(values) {
+  const onSubmit = async (values) => {
+    setLoading(true);
+    setMessage("");
     try {
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      console.log("values", values);
+
+      const response = await fetch("http://localhost:5000/predict/ml", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.msg || "Failed to submit data");
+      }
+
+      // Check ML Model Prediction
+      if (data.prediction?.["Predicted Health Assessment"] === "No") {
+        setMessage("No need to visit doctor!");
+      } else {
+        setMessage("Patient should visit a doctor.");
+      }
     } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-3xl mx-auto py-10">
+        className="space-y-6 max-w-3xl mx-auto py-10"
+      >
         <FormField
           control={form.control}
-          name="pain_levels"
-          render={({ field: { value, onChange } }) => (
+          name="userName"
+          render={({ field }) => (
             <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
+                <Input {...field} />
               </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+        {symptomFields.map(({ name, label }) => (
+          <FormField
+            key={name}
+            control={form.control}
+            name={name}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  {label}: {field.value}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={1}
+                    max={10}
+                    step={1}
+                    {...field}
+                    onChange={(e) => {
+                      let val = Number(e.target.value);
+                      if (val < 1) val = 1;
+                      if (val > 10) val = 10;
+                      field.onChange(val);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
 
-        <FormField
-          control={form.control}
-          name="mobility_issues"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <Button type="submit" disabled={loading} className="w-full">
+          {loading ? "Submitting..." : "Submit"}
+        </Button>
 
-        <FormField
-          control={form.control}
-          name="fatigue"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="appetite_weight"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="memory_issues"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="disorientation"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="mood_swings"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="sleep_patterns"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="breathing"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="tremors_shaking"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="numbness_tingling"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="urination"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="consultation"
-          render={({ field: { value, onChange } }) => (
-            <FormItem>
-              <FormLabel>Price - {value}</FormLabel>
-              <FormControl>
-                <Slider
-                  min={0}
-                  max={10}
-                  step={1}
-                  defaultValue={[5]}
-                  onValueChange={(vals) => {
-                    onChange(vals[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>
-                Adjust the intensity by sliding.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
+        {message && (
+          <div className="mt-4 p-4 border rounded-md">
+            {message}
+          </div>
+        )}
       </form>
     </Form>
   );

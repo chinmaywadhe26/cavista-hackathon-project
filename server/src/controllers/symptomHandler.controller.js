@@ -41,10 +41,11 @@ export const fillSymptoms = async (req, res) => {
             feature12: FrequencyOfUrination
         };
 
+        console.log(mlRequestData);
         
         let predictionResponse;
         try {
-            const mlServerUrl = "http://10.10.2.25:8000/predict";
+            const mlServerUrl = "http://192.168.31.50:8000/predict";
             const response = await axios.post(mlServerUrl, mlRequestData);
             predictionResponse = response.data; 
         } catch (mlError) {
