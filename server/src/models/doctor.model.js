@@ -5,7 +5,6 @@ const doctorSchema = new Schema({
     
     username:{
         type: String,
-        required: true,
         lowercase: true,
         unique:true,
     },
@@ -18,6 +17,9 @@ const doctorSchema = new Schema({
     password:{
         type: String,
         required: true,
+    },
+    room:{
+        type:String,
     },
      patients: {
         type: [

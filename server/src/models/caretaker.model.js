@@ -4,7 +4,6 @@ const caretakerSchema = new Schema({
 
     username: {
         type: String,
-        required: true,
         lowercase: true,
         unique: true,
     },
@@ -21,6 +20,9 @@ const caretakerSchema = new Schema({
     rating: {
         type: Number,
         required: true,
+    },
+    room:{
+        type:String,
     },
     patients: {
         type: [
