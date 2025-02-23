@@ -8,12 +8,17 @@ const router = Router();
  
 router.post('/register',registerUser);
 router.post('/login',loginUser);
-router.post('/putSymptoms',fillSymptoms);
+// router.post('/putSymptoms',fillSymptoms);
 router.post('/addGuardian',addUserController);
 router.post('/createRoom', createRoom);
 router.post('/deleteRoom', deleteRoom);
+
+router.post('/predict/ml',fillSymptoms);
+
+
 router.get('/getUsers', getAllUsers);
 router.get('/getCaretakers', getAllcaretakers);
 router.post('/getCaretakerForUser', getCaretaker);
+
 
 export default router;

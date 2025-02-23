@@ -46,6 +46,7 @@ const items = [
     url: "/patient/chat",
     icon: Inbox,
   },
+
 ];
 
 export function AppSidebar() {
